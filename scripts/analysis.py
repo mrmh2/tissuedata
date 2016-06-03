@@ -110,10 +110,23 @@ def extract_common_metadata(input_metadata_filename):
     common_metadata = {"vx" : vx, "vy" : vy}
 
     return common_metadata
-    
-def spike(input_segmentation_filename, input_metadata_filename):
+
+def extract_has_data(input_has_filename):
+
+    with open(input_has_filename) as f:
+        raw_lines = f.readlines()
+
+    has = raw_lines[0].strip()
+
+    return {"has": float(has)}
+
+def spike(input_segmentation_filename, 
+          input_metadata_filename,
+          input_has_filename):
 
     common_metadata = extract_common_metadata(input_metadata_filename)
+    has_data = extract_has_data(input_has_filename)
+    common_metadata.update(has_data)
     segmented_image = Image.from_file(input_segmentation_filename)
     identifier_image = convert_rgb_array_to_uint32(segmented_image)
 
@@ -134,9 +147,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input_segmentation", help="Input segmentation file.")
     parser.add_argument("input_metadata", help="Input microscope metadata.")
+    parser.add_argument("input_has_file", help="File containing HAS data.")
     args = parser.parse_args()
 
-    spike(args.input_segmentation, args.input_metadata)
+    spike(args.input_segmentation, args.input_metadata, args.input_has_file)
 
     # Create the output directory if it does not exist.
     # if not os.path.isdir(args.output_dir):
