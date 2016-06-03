@@ -120,9 +120,9 @@ def extract_has_data(input_has_filename):
 
     return {"has": float(has)}
 
-def spike(input_segmentation_filename, 
-          input_metadata_filename,
-          input_has_filename):
+def read_image_and_output_json(input_segmentation_filename, 
+                               input_metadata_filename,
+                               input_has_filename):
 
     common_metadata = extract_common_metadata(input_metadata_filename)
     has_data = extract_has_data(input_has_filename)
@@ -150,7 +150,8 @@ def main():
     parser.add_argument("input_has_file", help="File containing HAS data.")
     args = parser.parse_args()
 
-    spike(args.input_segmentation, args.input_metadata, args.input_has_file)
+    read_image_and_output_json(args.input_segmentation, args.input_metadata, 
+                               args.input_has_file)
 
     # Create the output directory if it does not exist.
     # if not os.path.isdir(args.output_dir):

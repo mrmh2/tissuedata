@@ -5,6 +5,12 @@
 This repository provides data structures and code for working with images of 
 whole tissue data, comprised of individual cells
 
+### Reading images/data and printing JSON
+
+To run the script, pass a segmented image file, microscope metadata, and the HAS file:
+
+    python scripts/analysis.py data/T06.png data/T06.txt data/T06.has
+
 ## Docker
 
 This image analysis project has been setup to take advantage of a technology
