@@ -2,15 +2,20 @@
 
 ## Introduction
 
+This repository provides data structures and code for working with images of 
+whole tissue data, comprised of individual cells
+
+## Docker
+
 This image analysis project has been setup to take advantage of a technology
 known as Docker.
 
 This means that you will need to:
 
 1. Download and install the [Docker Toolbox](https://www.docker.com/products/docker-toolbox)
-2. [](#build a docker image)
+2. Build a docker image.
 
-Before you can [](#run the image analysis in a docker container)
+Before you can run the image analysis in a docker container.
 
 
 ## Build a Docker image
