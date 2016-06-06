@@ -54,4 +54,12 @@ Now you can run the image analysis.
 
 ```
 [root@048bd4bd961c /]# python scripts/analysis.py data/ output/
+
+```
+## Requirements
+
+needs 'freeimage' backend
+
+```
+brew install freeimage
 ```

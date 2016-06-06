@@ -15,22 +15,25 @@ __version__ = "0.0.1"
 
 AutoName.prefix_format = "{:03d}_"
 
-class Cell(dict):
 
+class Cell(dict):
     @classmethod
     def from_point_arrays(cls, point_arrays):
         return cell_data_from_point_arrays(point_arrays)
+
 
 @transformation
 def identity(image):
     """Return the image as is."""
     return image
 
+
 def analyse_file(fpath, output_directory):
     """Analyse a single file."""
     logging.info("Analysing file: {}".format(fpath))
     image = Image.from_file(fpath)
     image = identity(image)
+
 
 def analyse_directory(input_directory, output_directory):
     """Analyse all the files in a directory."""
@@ -39,22 +42,23 @@ def analyse_directory(input_directory, output_directory):
         fpath = os.path.join(input_directory, fname)
         analyse_file(fpath, output_directory)
 
+
 def convert_rgb_array_to_uint32(segmented_image):
     """Return 2D uint32 array of identifiers, converting from the input image
     as a MxNx3 RGB array."""
 
     image_u32 = segmented_image.astype(np.uint32)
 
-    R = image_u32[:,:,0]
-    G = image_u32[:,:,1]
-    B = image_u32[:,:,2]
+    R = image_u32[:, :, 0]
+    G = image_u32[:, :, 1]
+    B = image_u32[:, :, 2]
 
     identifier_image = B + (G << 8) + (R << 16)
 
     return identifier_image
 
-def cell_data_from_point_arrays(point_arrays):
 
+def cell_data_from_point_arrays(point_arrays):
     float_centroid = map(np.mean, point_arrays)
     int_centroid = map(int, float_centroid)
 
@@ -62,7 +66,8 @@ def cell_data_from_point_arrays(point_arrays):
 
     pixel_area = len(point_arrays[0])
 
-    return {"top_left" : top_left, "centroid" : int_centroid, "pixel_area" : pixel_area}
+    return {"top_left": top_left, "centroid": int_centroid, "pixel_area": pixel_area}
+
 
 def parse_metadata_file(input_metadata_filename):
     """Return dictionary of metadata in filename, which should be in the format:
@@ -80,6 +85,7 @@ def parse_metadata_file(input_metadata_filename):
     split_lines = [l.split(' = ') for l in stripped_lines[1:-1]]
 
     return dict(split_lines)
+
 
 def cell_dict_from_identifier_image(identifier_image):
     """Return a dictionary in the form:
@@ -99,6 +105,7 @@ def cell_dict_from_identifier_image(identifier_image):
 
     return cell_dict
 
+
 def extract_common_metadata(input_metadata_filename):
     """Return a dictionary of the metadata extracted from the input file that
     is common to all cells in the file."""
@@ -107,12 +114,12 @@ def extract_common_metadata(input_metadata_filename):
     vx = metadata['voxel size x']
     vy = metadata['voxel size y']
 
-    common_metadata = {"vx" : vx, "vy" : vy}
+    common_metadata = {"vx": vx, "vy": vy}
 
     return common_metadata
 
-def extract_has_data(input_has_filename):
 
+def extract_has_data(input_has_filename):
     with open(input_has_filename) as f:
         raw_lines = f.readlines()
 
@@ -120,16 +127,15 @@ def extract_has_data(input_has_filename):
 
     return {"has": float(has)}
 
-def read_image_and_output_json(input_segmentation_filename, 
+
+def read_image_and_output_json(input_segmentation_filename,
                                input_metadata_filename,
                                input_has_filename):
-
     common_metadata = extract_common_metadata(input_metadata_filename)
     has_data = extract_has_data(input_has_filename)
     common_metadata.update(has_data)
     segmented_image = Image.from_file(input_segmentation_filename)
     identifier_image = convert_rgb_array_to_uint32(segmented_image)
-
 
     all_identifiers = np.unique(identifier_image)
 
@@ -138,9 +144,10 @@ def read_image_and_output_json(input_segmentation_filename,
     for cell in cell_dict.values():
         cell.update(common_metadata)
 
-    all_cells = {"cells" : cell_dict}
+    all_cells = {"cells": cell_dict}
 
     print json.dumps(all_cells, indent=2)
+
 
 def main():
     # Parse the command line arguments.
@@ -150,7 +157,7 @@ def main():
     parser.add_argument("input_has_file", help="File containing HAS data.")
     args = parser.parse_args()
 
-    read_image_and_output_json(args.input_segmentation, args.input_metadata, 
+    read_image_and_output_json(args.input_segmentation, args.input_metadata,
                                args.input_has_file)
 
     # Create the output directory if it does not exist.

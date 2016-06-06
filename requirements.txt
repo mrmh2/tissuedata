@@ -4,6 +4,7 @@ dask==0.8.1
 decorator==4.0.9
 iniparse==0.4
 javapackages==1.0.0
+jicbioimage
 jicbioimage.core==0.10.1
 jicbioimage.segment==0.3.0
 jicbioimage.transform==0.5.1
