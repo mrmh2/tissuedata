@@ -114,7 +114,7 @@ def extract_common_metadata(input_metadata_filename):
     vx = metadata['voxel size x']
     vy = metadata['voxel size y']
 
-    common_metadata = {"vx": float(vx), "vy": float(vy)}
+    common_metadata = {"vx": vx, "vy": vy}
 
     return common_metadata
 
