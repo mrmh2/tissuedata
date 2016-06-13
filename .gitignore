@@ -4,6 +4,9 @@
 
 data/*
 output/*
+build/*
+dist/*
+
 tissuedata.egg-info/*
 .eggs/*
 .idea/*
