@@ -9,7 +9,13 @@ whole tissue data, comprised of individual cells
 
 To run the script, pass a segmented image file, microscope metadata, and the HAS file:
 
-    python scripts/analysis.py data/T06.png data/T06.txt data/T06.has
+    python tissuedata/jsoner.py data/T06.png data/T06.txt data/T06.has
+
+or point the scrape_data.sh shell script at a data directory
+
+    sh scrape_data.sh /path/to/data /path/to/output
+
+this will create a .json file for each timepoint in the experiment
 
 ## Docker
 
