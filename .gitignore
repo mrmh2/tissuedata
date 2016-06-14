@@ -2,5 +2,13 @@
 *.pyc
 *~
 
-data/*
-output/*
+data/
+build/
+dist/
+
+tissuedata.egg-info/
+.eggs/
+.idea/
+.eggs/
+data/
+tissuedata.egg-info/
