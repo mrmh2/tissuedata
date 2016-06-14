@@ -49,11 +49,11 @@ def convert_rgb_array_to_uint32(segmented_image):
 
     image_u32 = segmented_image.astype(np.uint32)
 
-    R = image_u32[:, :, 0]
-    G = image_u32[:, :, 1]
-    B = image_u32[:, :, 2]
+    r = image_u32[:, :, 0]
+    g = image_u32[:, :, 1]
+    b = image_u32[:, :, 2]
 
-    identifier_image = B + (G << 8) + (R << 16)
+    identifier_image = b + (g << 8) + (r << 16)
 
     return identifier_image
 
@@ -98,10 +98,10 @@ def cell_dict_from_identifier_image(identifier_image):
     all_identifiers = np.unique(identifier_image)
 
     cell_dict = {}
-    for id in all_identifiers:
-        if id != 0:
-            cell = Cell.from_point_arrays(np.where(identifier_image == id))
-            cell_dict[str(id)] = cell
+    for cell_id in all_identifiers:
+        if cell_id != 0:
+            cell = Cell.from_point_arrays(np.where(identifier_image == cell_id))
+            cell_dict[str(cell_id)] = cell
 
     return cell_dict
 
